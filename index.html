@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="erebus">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <title>erebus - Tor Relay Dashboard</title>
+    
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/flat-ui.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    
+    <link href="css/erebus.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default erebus-navbar">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <h1 class="erebus-logo">erebus</h1>
+                </div>
+
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#"><i class="fa fa-fw fa-dashboard"></i> &nbsp; Dashboard</a></li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#"><i class="fa fa-fw fa-question-circle"></i> &nbsp; Documentation</a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+        <div id="subnav" class="container-fluid">
+            <div class="row">
+                <div class="col-lg-2 erebus-info">
+                    <span class="bold"><i class="fa fa-fw fa-info-circle"></i> Tor version:</span> 0.2.4.20
+                </div>
+                <div class="col-lg-3 erebus-info">
+                    <i class="fa fa-fw fa-user bold"></i> Unnamed
+                </div>
+                <div class="col-lg-4 erebus-info">
+                    <i class="fa fa-fw fa-key bold"></i> 71D23D2A539B83D2FB56AA67EAD4D750C093A255
+                </div>
+                <div class="col-lg-3 erebus-info">
+                    <i class="fa fa-fw fa-circle bold status-on"></i> online
+                </div>
+            </div>
+        </div>
+        
+        <div id="page-wrapper" class="container-fluid">
+            <div class="col-lg-7 col-xs-12">
+
+                <!-- Bandwidth graph -->                
+                <div id="bw" class="erebus-panel">
+                    <div class="panel-header">
+                        <h6><i class="fa fa-fw fa-bar-chart"></i> Live bandwidth usage</h6>
+                    </div>
+                    <div class="panel-content">
+                        <div class="row">
+                            <div class="col-lg-4 erebus-info">
+                                <span class="bold"><i class="fa fa-fw fa-minus-circle"></i> Limit:</span> 5 GB
+                            </div>
+                            <div class="col-lg-4 erebus-info">
+                                <span class="bold"><i class="fa fa-fw fa-line-chart"></i> Burst:</span> 34 MB/sec
+                            </div>
+                            <div class="col-lg-4 erebus-info">
+                                <span class="bold"><i class="fa fa-fw fa-dashboard"></i> Measured:</span> 15 MB/sec
+                            </div>
+                        </div>
+                        <div id="bw-graph" ng-controller="bandwidthGraph">
+                            <linechart class="graph" data="data" options="options" mode="" width="" height=""></linechart>
+                        </div>
+                        <div class="read">
+                            <div class="row">
+                                <div class="col-lg-4 erebus-info">
+                                    <span class="bold"><i class="fa fa-fw fa-download"></i> Read:</span> 1.1 MB/sec
+                                </div>
+                                <div class="col-lg-4 erebus-info">
+                                    <span class="bold">Average:</span> 4.6 MB/sec
+                                </div>
+                                <div class="col-lg-4 erebus-info">
+                                    <span class="bold">Total:</span> 36 MB
+                                </div>
+                            </div>
+                        </div>
+                        <div class="written">
+                            <div class="row">
+                                <div class="col-lg-4 erebus-info">
+                                    <span class="bold"><i class="fa fa-fw fa-upload"></i> Written:</span> 1 MB/sec
+                                </div>
+                                <div class="col-lg-4 erebus-info">
+                                    <span class="bold">Average:</span> 4.5 MB/sec
+                                </div>
+                                <div class="col-lg-4 erebus-info">
+                                    <span class="bold">Total:</span> 35 MB
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div><!-- /.erebus-panel -->
+
+            </div><!-- /.col-lg-7 -->
+
+            <div class="col-lg-5 col-xs-12">
+
+                <!-- Log console -->
+                <div class="erebus-panel">
+                    <div class="panel-header">
+                        <h6><i class="fa fa-fw fa-flag"></i> Log console</h6>
+                    </div>
+                    <div class="panel-content">
+                        <div id="log-console">
+                            <!-- ngRepeat: entry in entries -->
+                            <div class="event ">
+                                <div class="row">
+                                    <div class="col-lg-2 type">
+                                        <span class="badge notice">notice</span>
+                                        <span class="">20:01:34</span>
+                                    </div>
+                                    <div class="col-lg-10 text">
+                                        <span class="">New control connection opened.</span>
+                                    </div>
+                                </div><!-- /.row -->
+                            </div>
+                            <div class="event ">
+                                <div class="row">
+                                    <div class="col-lg-2 type">
+                                        <span class="badge notice">notice</span>
+                                        <span class="">19:46:30</span>
+                                    </div>
+                                    <div class="col-lg-10 text">
+                                        <span class="">Now checking whether ORPort 111.11.111.111:8080 is reachable... (this may take up to 20 minutes -- look for log messages indicating success)</span>
+                                    </div>
+                                </div><!-- /.row -->
+                            </div>
+                            <div class="event ">
+                                <div class="row">
+                                    <div class="col-lg-2 type">
+                                        <span class="badge notice">notice</span>
+                                        <span class="">19:46:30</span>
+                                    </div>
+                                    <div class="col-lg-10 text">
+                                        <span class="">Bootstrapped 100%: Done.</span>
+                                    </div>
+                                </div><!-- /.row -->
+                            </div>
+                            <div class="event ">
+                                <div class="row">
+                                    <div class="col-lg-2 type">
+                                        <span class="badge notice">notice</span>
+                                        <span class="">19:46:30</span>
+                                    </div>
+                                    <div class="col-lg-10 text">
+                                        <span class="">Tor has successfully opened a circuit. Looks like client functionality is working.</span>
+                                    </div>
+                                </div><!-- /.row -->
+                            </div>
+                            <div class="event ">
+                                <div class="row">
+                                    <div class="col-lg-2 type">
+                                        <span class="badge notice">notice</span>
+                                        <span class="">19:46:28</span>
+                                    </div>
+                                    <div class="col-lg-10 text">
+                                        <span class="">Bootstrapped 90%: Establishing a Tor circuit.</span>
+                                    </div>
+                                </div><!-- /.row -->
+                            </div>
+                            <div class="event ">
+                                <div class="row">
+                                    <div class="col-lg-2 type">
+                                        <span class="badge notice">notice</span>
+                                        <span class="">19:46:27</span>
+                                    </div>
+                                    <div class="col-lg-10 text">
+                                        <span class="">Guessed our IP address as 111.11.111.111 (source: 222.22.2.22).</span>
+                                    </div>
+                                </div><!-- /.row -->
+                            </div>
+                            <div class="event ">
+                                <div class="row">
+                                    <div class="col-lg-2 type">
+                                        <span class="badge notice">notice</span>
+                                        <span class="">19:46:27</span>
+                                    </div>
+                                    <div class="col-lg-10 text">
+                                        <span class="">Bootstrapped 85%: Finishing handshake with first hop.</span>
+                                    </div>
+                                </div><!-- /.row -->
+                            </div>
+                            <div class="event ">
+                                <div class="row">
+                                    <div class="col-lg-2 type">
+                                        <span class="badge notice">notice</span>
+                                        <span class="">19:46:27</span>
+                                    </div>
+                                    <div class="col-lg-10 text">
+                                        <span class="">Circuit handshake stats since last time: 0/0 TAP, 0/0 NTor.</span>
+                                    </div>
+                                </div><!-- /.row -->
+                            </div>
+                            <div class="event ">
+                                <div class="row">
+                                    <div class="col-lg-2 type">
+                                        <span class="badge notice">notice</span>
+                                        <span class="">19:46:26</span>
+                                    </div>
+                                    <div class="col-lg-10 text">
+                                        <span class="">Bootstrapped 80%: Connecting to the Tor network.</span>
+                                    </div>
+                                </div><!-- /.row -->
+                            </div>
+                            <div class="event ">
+                                <div class="row">
+                                    <div class="col-lg-2 type">
+                                        <span class="badge notice">notice</span>
+                                        <span class="">19:46:26</span>
+                                    </div>
+                                    <div class="col-lg-10 text">
+                                        <span class="">We now have enough directory information to build circuits.</span>
+                                    </div>
+                                </div><!-- /.row -->
+                            </div>
+                            <div class="event ">
+                                <div class="row">
+                                    <div class="col-lg-2 type">
+                                        <span class="badge warn">warn</span>
+                                        <span class="">19:46:25</span>
+                                    </div>
+                                    <div class="col-lg-10 text">
+                                        <span class="">Please upgrade! This version of Tor (x.x.x) is obsolete, according to the directory authorities. Recommended versions are: 0.2.4.23,0.2.4.24,0.2.4.25,0.2.4.26,0.2.4.27,0.2.5.8-rc,0.2.5.9-rc,0.2.5.10,0.2.5.11,0.2.5.12,0.2.6.5-rc,0.2.6.6,0.2.6.7,0.2.6.8,0.2.6.9,0.2.6.10,0.2.7.1-alpha,0.2.7.2-alpha</span>
+                                    </div>
+                                </div><!-- /.row -->
+                            </div>
+                            <div class="event ">
+                                <div class="row">
+                                    <div class="col-lg-2 type">
+                                        <span class="badge notice">notice</span>
+                                        <span class="">19:46:25</span>
+                                    </div>
+                                    <div class="col-lg-10 text">
+                                        <span class="">Your Tor server's identity key fingerprint is 'Unnamed 71D23D2A539B83D2FB56AA67EAD4D750C093A255'</span>
+                                    </div>
+                                </div><!-- /.row -->
+                            </div>
+                            <div class="event ">
+                                <div class="row">
+                                    <div class="col-lg-2 type">
+                                        <span class="badge notice">notice</span>
+                                        <span class="">19:46:25</span>
+                                    </div>
+                                    <div class="col-lg-10 text">
+                                        <span class="">Configured to measure statistics. Look for the *-stats files that will first be written to the data directory in 24 hours from now.</span>
+                                    </div>
+                                </div><!-- /.row -->
+                            </div>
+                            <div class="event ">
+                                <div class="row">
+                                    <div class="col-lg-2 type">
+                                        <span class="badge notice">notice</span>
+                                        <span class="">19:46:25</span>
+                                    </div>
+                                    <div class="col-lg-10 text">
+                                        <span class="">Parsing GEOIP IPv6 file /usr/share/tor/geoip6.</span>
+                                    </div>
+                                </div><!-- /.row -->
+                            </div><!-- /ng-repeat -->
+                            
+                            
+                        </div>
+                    </div>
+                </div><!-- /.erebus-panel -->
+
+            </div><!-- /.col-lg-5 -->
+
+        </div>
+    </div> <!-- /wrapper -->
+
+    <script src="static/js/lib/angular.js"></script>
+    <script src="static/js/lib/d3.min.js"></script>
+    <script src="static/js/lib/jquery.min.js"></script>
+
+    <script src="static/js/plugins/line-chart.min.js"></script>
+    <script src="static/js/plugins/jquery.slimscroll.min.js"></script>
+    <script src="static/js/plugins/jquery-scripts.js"></script>
+    
+    <script src="static/js/app/erebus.js"></script>
+    <script src="static/js/app/controllers/bandwidth.js"></script>
+</body>
+
+</html>
